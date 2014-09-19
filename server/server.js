@@ -5,8 +5,9 @@ var
 var rooms = {};
 
 var 
-    config     = require('./config.json'),
-    signals    = require('../lib/signals');
+    config      = require('./config.json'),
+    signals     = require('../lib/signals'),
+    orderFilter = require('../lib/orderfilter');
 
 function runServer(){
 		io.on('connection', function(socket){
@@ -89,7 +90,7 @@ function runServer(){
         var now = + new Date;
         var toBucket = parseInt((parseInt(data.time / config.bucket_time) + config.delay_time) / config.bucket_time);
 
-        deliverOrderToBucket(room, data, toBucket);
+        deliverOrderToBucket(room, orderFilter(data), toBucket);
       });
 
       /* start game */
