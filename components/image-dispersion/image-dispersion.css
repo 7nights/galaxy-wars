@@ -1,0 +1,81 @@
+#mainImg{
+    position: relative;
+    z-index: 2;
+}
+#subImgs{
+    position: absolute;
+    top: 43px;
+    left: 43px;
+    z-index: 0;
+}
+.subimg{
+    position: absolute;
+    z-index: 1;
+    width: 62px;
+}
+.subimg.dispersion0{
+    -webkit-animation: disperOne .3s;
+    -webkit-animation-fill-mode: forwards;
+}
+.subimg.dispersion1{
+    -webkit-animation: disperTwo .3s;
+    -webkit-animation-fill-mode: forwards;
+}
+.subimg.dispersion2{
+    -webkit-animation: disperThree .3s;
+    -webkit-animation-fill-mode: forwards;
+}
+.subimg.dispersion3{
+    -webkit-animation: disperFour .3s;
+    -webkit-animation-fill-mode: forwards;
+}
+@-webkit-keyframes disperOne{
+    0% {top:0;left:0}
+    100% {top:-69px;left:-92px;-webkit-transform:rotate(360deg)}
+}
+@-webkit-keyframes disperTwo{
+    0% {top:0;left:0}
+    100% {top:-110px;left:-35px;-webkit-transform:rotate(360deg)}
+}
+@-webkit-keyframes disperThree{
+    0% {top:0;left:0}
+    100% {top:-110px;left:35px;-webkit-transform:rotate(360deg)}
+}
+@-webkit-keyframes disperFour{
+    0% {top:0;left:0}
+    100% {top:-69px;left:92px;-webkit-transform:rotate(360deg)}
+}
+
+.subimg.collapse0{
+    -webkit-animation: collapseOne .3s;
+    -webkit-animation-fill-mode: forwards;
+}
+.subimg.collapse1{
+    -webkit-animation: collapseTwo .3s;
+    -webkit-animation-fill-mode: forwards;
+}
+.subimg.collapse2{
+    -webkit-animation: collapseThree .3s;
+    -webkit-animation-fill-mode: forwards;
+}
+.subimg.collapse3{
+    -webkit-animation: collapseFour .3s;
+    -webkit-animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes collapseOne{
+    0% {top:-69px;left:-92px;}
+    100% {top:0;left:0;-webkit-transform:rotate(360deg)}
+}
+@-webkit-keyframes collapseTwo{
+    0% {top:-110px;left:-35px;}
+    100% {top:0;left:0;-webkit-transform:rotate(360deg)}
+}
+@-webkit-keyframes collapseThree{
+    0% {top:-110px;left:35px;}
+    100% {top:0;left:0;-webkit-transform:rotate(360deg)}
+}
+@-webkit-keyframes collapseFour{
+    0% {top:-69px;left:92px}
+    100% {top:0;left:0;-webkit-transform:rotate(360deg)}
+}

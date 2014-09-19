@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="components/basecomponents/platform/platform.js"></script>
+		<link rel="stylesheet" href="css/reset.css"/>
+		<link rel="import" href="components/fullscreen-bg/fullscreen-bg.html"/>
+		<link href="components/basecomponents/core-transition/core-transition-css.html" rel="import">
+		<link rel="import" href="components/basecomponents/core-meta/core-meta.html"/>
+		<link rel="import" href="components/basecomponents/jquery/jquery.html"/>
+		<style>
+			#start{
+				width: 100%;
+				height: 100%;
+				z-index: 1;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+			#part{
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="start">
+			<fullscreen-bg imgsrc="img/start.png" entergame="true"></fullscreen-bg>
+		</div>
+		<div id="part">
+			<fullscreen-bg imgsrc="img/part.png" logoimg="true" id="1" part="true"></fullscreen-bg>
+		</div>
+		<script>
+			document.addEventListener('polymer-ready',function(){
+				bindEvents();
+			});
+
+			function bindEvents(){
+				var meta;
+				var transition;
+				var state = {
+					opened: true
+				}
+				document.body.addEventListener('jumpNext',function(){
+					var meta = document.createElement('core-meta');
+					meta.type = 'transition';
+					var transition = meta.byId('core-transition-top');
+
+					// Run the animation
+					var animated = document.getElementById('start');
+
+					transition.setup(animated);
+
+					state.opened = !state.opened;
+					transition.go(animated,state);
+
+//					var target2 = document.getElementById('part');
+//					state.opened = !state.opened;
+//					transition.go(target2,state);
+				});
+			}
+		</script>
+	</body>
+</html>

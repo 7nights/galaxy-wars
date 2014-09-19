@@ -1,0 +1,21 @@
+<link rel="import" href="../basecomponents/polymer/polymer.html"/>
+<link rel="import" href="../basecomponents/jquery/jquery.html"/>
+<polymer-element name="window-action">
+	<template>
+		<link rel="stylesheet" href="window-action.css"/>
+		<div id="windowBtnContain">
+			<div id="minWindow" class="windowBtn" on-click="{{minWindow}}"></div>
+			<div id="closeWindow" class="windowBtn" on-click="{{closeWindow}}"></div>
+		</div>
+	</template>
+	<script>
+		Polymer('window-action',{
+			minWindow: function(){
+				this.fire('min-window');
+			},
+			closeWindow: function () {
+				this.fire('close-window');
+			}
+		});
+	</script>
+</polymer-element>

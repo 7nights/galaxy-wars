@@ -1,0 +1,29 @@
+<link rel="import" href="../basecomponents/polymer/polymer.html"/>
+
+<polymer-element name="game-tip">
+	<template>
+		<link rel="stylesheet" href="game-tip.css" />
+		<style>
+		</style>
+		<div id="tipContain" style="width:{{containWidth}}px">
+			<span class="tipInner">
+				{{text}}
+			</span>
+		</div>
+	</template>
+	<script>
+		Polymer('game-tip',{
+			setText: function(text){
+				this.containWidth = window.innerWidth;
+				this.text = text;
+			},
+			show: function(){
+				var self = this;
+				$(this.$.tipContain).removeClass('slowHide').addClass('show');
+				setTimeout(function(){
+					$(self.$.tipContain).addClass('slowHide');
+				},3000);
+			}
+		});
+	</script>
+</polymer-element>

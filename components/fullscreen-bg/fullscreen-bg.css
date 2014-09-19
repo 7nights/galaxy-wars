@@ -1,0 +1,179 @@
+:host{
+    position: relative;
+}
+.fullscreen{
+    width: 100%;
+    height: 100%;
+    background-size: 1280px 640px;
+    background-repeat: no-repeat;
+}
+#enterBtn{
+    width: 126px;
+    height: 38px;
+    border: 1px solid rgba(255,255,255,0.5);
+    -webkit-transition: all .3s;
+    position: absolute;
+    left: 586px;
+    bottom: 172px;
+    cursor: pointer;
+}
+#enterBtn:hover{
+    box-shadow: 0 0 10px 0 #fff;
+}
+#partContain{
+    position: absolute;
+    top: 150px;
+    width: 3840px;
+    height: 300px;
+    white-space: nowrap;
+}
+.partItem{
+    width: 1280px;
+    float: left;
+    position: relative;
+}
+.partDesc{
+    display: inline-block;
+    margin-left: 184px;
+    width: 200px;
+    height: 90px;
+    margin-top: 87px;
+}
+.partDesc img{
+    width: 157px;
+}
+.whiteHor{
+    position: absolute;
+    background-image: url(whitehor.png);
+    width: 461px;
+    height: 3px;
+    z-index: 0;
+    top: 108px;
+    left: 577px;
+}
+.selectAvatar{
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    z-index: 0;
+    margin-left: 66px;
+    margin-top: 43px;
+}
+.selectAvatar img{
+    width: 120px;
+}
+.partInputContain{
+    display: inline-block;
+    vertical-align: top;
+    background-image: url('input.png');
+    background-size: 80%;
+    width: 200px;
+    height: 70px;
+    position: relative;
+    background-repeat: no-repeat;
+    margin-top: 90px;
+    margin-left: 130px;
+}
+.partInput{
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    z-index: 1;
+    height: 30px;
+    top: 7px;
+    left: 10px;
+    outline: none;
+    width: 140px;
+    font-family: "microsoft yahei";
+    color: #aaa;
+}
+.partNext{
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 88px;
+    position: relative;
+    z-index: 0;
+    margin-left: 82px;
+    cursor: pointer;
+}
+.partNext img{
+    width: 43px;
+}
+.partSubDesc{
+    position: absolute;
+    bottom: 20px;
+    left: 10px;
+    color: #fff;
+    font-family: "microsoft yahei";
+    font-size: 13px;
+}
+.partInputContain .partSubDesc{
+    left: 60px;
+    bottom: -55px;
+}
+.selectAvatar .partSubDesc{
+    bottom: -35px;
+    left: 36px;
+}
+.partNext .partSubDesc{
+    bottom: -82px;
+    left: 2px;
+}
+.selectMaps{
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 61px;
+    position: relative;
+}
+.selectMaps img{
+    width: 302px;
+}
+.changeMap{
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-image: url(selectmap.png);
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+.openroom{
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 104px;
+    margin-left: 54px;
+}
+.openroom img{
+    width: 43px;
+}
+.whiteHor.map-openroom{
+    background-image: url(part2white.png);
+    z-index: -1;
+    top: 124px;
+    left: 676px;
+    width: 104px;
+}
+.whiteHor.ip-joinroom{
+    background-image: url(part2white.png);
+    z-index: -1;
+    top: 124px;
+    left: 1014px;
+    width: 104px;
+}
+.opendesc{
+    display: inline-block;
+    vertical-align: top;
+    color: #fff;
+    font-size: 13px;
+    font-family: "microsoft yahei";
+    margin-top: 114px;
+}
+.partInputContain.part2{
+    margin-top: 104px;
+    margin-left: 10px;
+}
+.partNext.part2{
+    margin-top: 104px;
+    margin-left: 11px;
+}

@@ -1,0 +1,11 @@
+{
+    "name": "yinhezhimin",
+    "main": "start.html",
+    "window":{
+    	"width": 1280,
+    	"height": 640,
+    	"resizeable": false,
+    	"toolbar": true,
+    	"frame": false
+    }
+}

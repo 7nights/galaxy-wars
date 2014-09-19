@@ -1,0 +1,24 @@
+:host{
+    background-color: transparent;
+    background-image: url(dialog.png);
+    width: 737px;
+    height: 326px;
+}
+.dialogTitle,.dialogMsg{
+    text-align: center;
+    font-family: "свт╡","microsoft yahei";
+}
+.dialogTitle{
+    color: #ffe400;
+    font-size: 36px;
+}
+.dialogMsg{
+    color: #fff;
+    font-size: 18px;
+}
+:host /deep/ window-action #minWindow{
+    display: none;
+}
+window-action /deep/ #minWindow{
+    display: none;
+}

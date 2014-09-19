@@ -1,0 +1,28 @@
+<link rel="import" href="../basecomponents/polymer/polymer.html"/>
+<link rel="import" href="../basecomponents/paper-dialog/paper-dialog.html"/>
+<link rel="import" href="../window-action/window-action.html"/>
+
+<polymer-element name="game-dialog" extends="paper-dialog" heading="" autoCloseDisabled="true" backdrop="true" on-close-window="{{closeDialog}}">
+	<template>
+		<link rel="stylesheet" href="game-dialog.css" shim-shadowdom/>
+
+		<shadow>
+		</shadow>
+		<p class="dialogTitle">{{dialogTitle}}</p>
+		<p class="dialogMsg">{{dialogMsg}}</p>
+		<window-action></window-action>
+	</template>
+	<script>
+		Polymer('game-dialog',{
+			setTitle: function(title){
+				this.dialogTitle = title;
+			},
+			setMsg: function(msg){
+				this.dialogMsg = msg;
+			},
+			closeDialog: function () {
+				this.toggle();
+			}
+		});
+	</script>
+</polymer-element>

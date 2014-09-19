@@ -1,0 +1,30 @@
+:host{
+    width: 1280px;
+    height: 50px;
+    background-color: black;
+}
+.tipInner{
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 27px;
+    color: #fff;
+    padding: 12px 33px;
+    font-size: 15px;
+    font-family: "microsoft yahei";
+}
+#tipContain{
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 1;
+    margin-top: 35px;
+}
+#tipContain.show{
+     opacity: 1;
+ }
+#tipContain.slowHide{
+    -webkit-transition: opacity 7s;
+    opacity: 0;
+}

@@ -1,0 +1,7 @@
+{
+    "ORDER_ARMY": {
+        "sources": "Array",
+        "target": "Number",
+        "percentage": "Number"
+    }
+}
