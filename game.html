@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>游戏</title>
+    <script src="lib/socket.io.js"></script>
+    <script src="lib/jquery.js"></script>
+    <style>
+        #roomContain{
+          display: none;
+          width: 200px;
+          height: 200px;
+          border: 1px solid;
+        }
+        .hidden{
+          display: none;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="roomContain">
+        <h2>房间</h2>
+    </div>
+    <div id="curRooms">
+      <h2>当前房间列表</h2>
+      <ul id="curUserList">
+        
+      </ul>
+    </div>
+    <button id='openRoom'>创建房间</button>
+    <div id="joinContain"><input type="text" id="joinIp" placeholder="要加入的ip"><input type="text" placeholder="用户名" id="joinName"><button id="joinRoom">加入房间</button></div>
+    <script src="lib/jsbridge.js"></script>
+    <script>
+      var clientSignals = {
+        TRY_OPEN_ROOM: 'tryopenroom',
+        TRY_JOIN_ROOM: 'tryjoinroom',
+        TRY_LEAVE_ROOM: 'tryleaveroom',
+        TRY_READY_GAME: 'tryreadygame',
+        TRY_START_GAEM: 'trystartgame',
+        TRY_ATTACKPLANET: 'tryattackplanet',
+        TRY_UPGRADETECH: 'tryupgradetech'
+      };
+
+      var serverSignals = {
+        CONNECT_SUCCESS: 'connectsuccess',
+        OPEN_ROOM: 'openroom',
+        ROOM_STATUS: 'roomstatus',
+        JOIN_ROOM: 'joinroom',
+        LEAVE_ROOM: 'leaveroom',
+        ATTACK_PLANET: 'attackplanet',
+        UPGRADE_TECH: 'upgradetech'
+      }
+
+      var clientId,socket,serverStart;
+      
+      $ = jQuery;
+
+      document.querySelector('#openRoom').addEventListener('click',setRoomServer);
+      document.querySelector('#joinRoom').addEventListener('click',joinRoom);
+
+      function setRoomServer(){
+        if(!serverStart){
+          // jsbridge.runServer();
+          jsbridge.connect();
+          jsbridge.sendMessage(clientSignals.TRY_OPEN_ROOM,{
+            username: 'hostname'
+          });
+          jsbridge.getMessage(function(data){
+            console.log(data);
+          });
+
+        }
+      }
+
+
+      function joinRoom(){
+          document.querySelector('#openRoom').className += 'hidden';
+          var ip = document.querySelector('#joinIp').value;
+          jsbridge.connect(ip);
+          jsbridge.sendMessage(clientSignals.TRY_JOIN_ROOM,{
+             username: $('#joinName').val()
+          });
+          jsbridge.getMessage(function(data){
+            console.log(data);
+          });
+      }
+
+
+
+    </script>
+  </body>
+</html>
