@@ -14,28 +14,32 @@ function initPlanetLogic() {
         planets.forEach(function (val) {
             /* 中立星球 */
             if (val.owner < 0) {
-                
+
             }
             val.army += val.capacity;
         });
     }, 5000);
 
-    gameUtil.listen(gameUtil.EVENTS.OWNER_CHANGE, function (target, detail) {
+    gameUtil.listen(gameUtil.EVENTS.OWNER_CHANGE, function (target, event, detail) {
 
     });
 
     var focusPlanet = [];
     /* 星球被点击 */
-    gameUtil.listen(gameUtil.EVENTS.PLANET.CLICK, function (target, detail) {
-        /* 如果被点击的星球是敌人的 */
+    gameUtil.listen(gameUtil.EVENTS.PLANET.CLICK, function (target, event, detail) {
+        /* 如果被点击的星球是敌人的并且已经有选中的星球 */
         if (target.owner !== gameUtil.localPlayer && focusPlanet.length > 0) {
             gameUtil.sendOrder(
-                'ORDER_ARMY',
-                focusPlanet,
-                target,
-                gameUtil.getPercentage()
+                {
+                    name: 'ORDER_ARMY',
+                    sources: gameUtil.getSpriteId(focusPlanet),
+                    target: gameUtil.getSpriteId(target),
+                    percentage: gameUtil.getOrderPercentage()
+                }
             );
             removeAllFocuses();
+            return;
+        } else if (target.owner !== gameUtil.localPlayer) {
             return;
         }
 
@@ -59,7 +63,7 @@ function initPlanetLogic() {
     }
 
     /* 鼠标悬停星球 */
-    gameUtil.listen(gameUtil.EVENTS.PLANET.MOUSEOVER, function (target, detail) {
+    gameUtil.listen(gameUtil.EVENTS.PLANET.MOUSEOVER, function (target, event, detail) {
         if (target.owner !== gameUtil.localPlayer && focusPlanet.length > 0) {
             focusPlanet.forEach(function (val) {
                 val.drawAttckLine(target);
