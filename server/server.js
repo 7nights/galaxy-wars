@@ -48,14 +48,14 @@ function runServer(){
           room = Object.keys(rooms)[0];
         }
 
-        if (room.players.indexOf(socket) !== -1)
+        if (rooms[room].players.indexOf(socket) !== -1)
           return socket.emit(signals.MESSAGE.ERROR, {
             message: 'You are already in this room.'
           });
 
         initUserInfo(socket, data);
 
-        if (room in socket) {
+        if ('room' in socket) {
           socket.emit(signals.MESSAGE.ERROR, {
             message: 'You already joined a room.'
           });
