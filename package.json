@@ -6,7 +6,7 @@
         "height": 640,
         "resizeable": false,
         "toolbar": true,
-        "frame": false
+        "frame": true
     },
     "dependencies": {
         "socket.io": "*",

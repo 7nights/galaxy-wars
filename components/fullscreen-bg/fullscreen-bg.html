@@ -87,10 +87,12 @@
 			},
 			switchPart: function(){
 				var curPart = this.$.outerContain.querySelector('head-logo').index,
-						verify = false;
+					verify = false;
 
-				switch (curPart){
-					case "1":
+				var net = require('./lib/network'), self = this;
+				debugger;
+				switch (+curPart){
+					case 1:
 						if(this.$.selectAvatar.select == true && !/^\s*$/.test(this.$.username.value)){
 							verify = true;
 						}else if(this.$.selectAvatar.select != true){
@@ -103,9 +105,19 @@
 							this.$.gamedialog.toggle();
 						}
 						break;
-					case "2":
+					case 2:
+
+						var socket = net.connect(),
+							signals = require('./lib/signals');
+						net.sendMessage(signals.REQUEST.JOIN_ROOM, {
+							username: self.$.username.value,
+							avatar: 1
+						});
+						socket.on(signals.MESSAGE.JOIN_ROOM, function (data) {
+							console.log(data);
+						});
 						break;
-					case "3":
+					case 3:
 						break;
 				}
 				if(!verify){
@@ -128,13 +140,22 @@
 			},
 			openroom: function(){
 				var net = require('./lib/network');
-				net.runServer();
+				//net.runServer();
 				var socket = net.connect();
 				var signal = require('./lib/signals');
+				var self = this;
 				socket.on(signal.MESSAGE.CONNECT_SUCCESS,function(data){
-					alert('房间建立成功');
+					net.sendMessage(signal.REQUEST.OPEN_ROOM, {
+						username: self.$.username.value,
+						avatar: 1
+					});
+
+					socket.on(signal.MESSAGE.OPEN_ROOM, function (data) {
+						
+					});
 				});
-			}
+			},
+
 		});
 	</script>
 </polymer-element>

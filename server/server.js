@@ -10,7 +10,7 @@ var
     orderFilter = require('../lib/orderfilter');
 
 function runServer(){
-		io.on('connection', function(socket){
+	io.on('connection', function(socket){
       var id = generateUserId();
       socket.user_id = id;
       socket.emit(signals.MESSAGE.CONNECT_SUCCESS, {
@@ -19,7 +19,7 @@ function runServer(){
       console.log('connect' + socket.id);
 
       /* 创建房间 */
-      socket.on(signals.REQUEST.TRY_OPEN_ROOM, function(data){
+      socket.on(signals.REQUEST.OPEN_ROOM, function(data){
         initUserInfo(socket, data);
 
         var room = generateRoomId();
@@ -48,6 +48,11 @@ function runServer(){
           room = Object.keys(rooms)[0];
         }
 
+        if (room.players.indexOf(socket) !== -1)
+          return socket.emit(signals.MESSAGE.ERROR, {
+            message: 'You are already in this room.'
+          });
+
         initUserInfo(socket, data);
 
         if (room in socket) {
@@ -59,7 +64,7 @@ function runServer(){
         }
         
         socket.room = room;
-        rooms[room].players.push(socket.user_id);
+        rooms[room].players.push(socket);
         socket.emit(signals.MESSAGE.JOIN_ROOM, {
           roomId: room,
           players: getPlayerInfo(rooms[room].players)
@@ -73,6 +78,7 @@ function runServer(){
   
       /* disconnect */
       socket.on('disconnect', function(data){
+        debugger;
         var index = rooms[socket.room].players.indexOf(socket);
         rooms[socket.room].players.splice(index, 1);
         /* 广播玩家掉线 */
@@ -141,7 +147,7 @@ function generateRoomId() {
   var start = 1000;
   
   if (start in rooms) {
-    start++;
+    start++;  
   }
   return start;
 }
@@ -156,17 +162,18 @@ function getPlayerInfo(socket) {
     result = [];
     socket.forEach(function (val) {
       if (!('user_id_md5' in val)) val.user_id_md5 = md5(val.user_id);
+      console.log(val.user_id_md5);
       result.push({
-        id: val.user_id_md5,
+        id: '' + val.user_id_md5,
         name: val.username,
         avatar: val.avatar
       });
     });
   } else {
     result = {
-      id: val.user_id_md5,
-      name: val.username,
-      avatar: val.avatar
+      id: '' + socket.user_id,
+      name: socket.username,
+      avatar: socket.avatar
     };
   }
 
@@ -179,7 +186,7 @@ function deliverOrderToBucket(room, order, toBucket) {
   if (toBucket < room.curBucket) toBucket = room.currentBucket;
   room.bucketPool[toBucket].push(order);
 }
-function initRoom(room) {
+function initRoom(room, socket) {
   rooms[room] = {
     id: room,
     creator: socket.user_id,
@@ -194,6 +201,11 @@ function broadcastBucket(room) {
   room.currentBucket++;
   io.to(room.id).emit(signals.MESSAGE.GAME_ORDER, bucket);
   bucket = null;
+}
+function md5(data, encoding) {
+    var hash = require('crypto').createHash('md5');
+    hash.update(data);
+    return hash.digest(encoding || 'hex');
 }
 
 exports.run = runServer;
