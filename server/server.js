@@ -123,7 +123,7 @@ function runServer(){
         function doLoop(fn) {
           setTimeout(fn, 1);
         }
-        doLoop(function (fn) {
+        doLoop(function fn() {
           var now = new Date;
           if (now < room.startTime + cooldown * (room.currentBucket + 1)) {
             return doLoop(fn);
