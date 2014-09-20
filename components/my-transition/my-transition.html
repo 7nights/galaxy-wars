@@ -1,0 +1,16 @@
+<link rel="import" href="../basecomponents/polymer/polymer.html"/>
+
+<polymer-element name="my-transition" extends="core-transition">
+	<script>
+		Polymer('my-transition',{
+			curLeft: 0,
+			go: function(node) {
+				this.curLeft -= 1280;
+				node.style.transition = 'all .5s ease-out';
+				node.style.webkitTransform = 'translate('+this.curLeft+'px,0)';
+			}
+		});
+	</script>
+</polymer-element>
+
+<my-transition id="my-fade-out"></my-transition>

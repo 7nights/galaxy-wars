@@ -1,0 +1,16 @@
+<link rel="import" href="../basecomponents/polymer/polymer.html"/>
+<link rel="import" href="../basecomponents/jquery/jquery.html"/>
+
+<polymer-element name="head-logo" attributes="index">
+	<template>
+		<link rel="stylesheet" href="head-logo.css"/>
+		<div id="logo">
+			<img src="logo.png" alt=""/>
+			<div id="partContain" class="part{{index}}"></div>
+		</div>
+	</template>
+	<script>
+		Polymer('head-logo',{
+		});
+	</script>
+</polymer-element>

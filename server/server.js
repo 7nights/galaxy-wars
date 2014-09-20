@@ -1,11 +1,11 @@
 'use strict';
 var
-  io = require('io')();
+  io = require('socket.io')();
 
 var rooms = {};
 
 var 
-    config      = require('./config.json'),
+    config      = require('../game.config.json'),
     signals     = require('../lib/signals'),
     orderFilter = require('../lib/orderfilter');
 

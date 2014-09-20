@@ -1,0 +1,140 @@
+<link rel="import" href="../basecomponents/polymer/polymer.html"/>
+<link rel="import" href="../basecomponents/jquery/jquery.html"/>
+<link rel="import" href="../window-action/window-action.html"/>
+<link rel="import" href="../basecomponents/core-transition/core-transition.html"/>
+<link rel="import" href="../head-logo/head-logo.html"/>
+<link rel="import" href="../basecomponents/core-meta/core-meta.html"/>
+<link rel="import" href="../my-transition/my-transition.html"/>
+<link rel="import" href="../image-dispersion/image-dispersion.html"/>
+<link rel="import" href="../game-dialog/game-dialog.html"/>
+<link rel="import" href="../game-tip/game-tip.html"/>
+
+<polymer-element name="fullscreen-bg" attributes="imgsrc,logoImg,id,entergame,part">
+	<template>
+		<link rel="stylesheet" href="fullscreen-bg.css"/>
+		<template if="{{imgsrc}}">
+			<bgsound src="url（背景音乐路径）" loop="-1"></bgsound>
+			<game-dialog id="gamedialog"></game-dialog>
+			<game-tip id="gametip"></game-tip>
+			<div class="fullscreen" style="background-image:url({{imgsrc}});" id="outerContain">
+				<window-action></window-action>
+				<template if="{{logoImg}}">
+					<head-logo index="1"></head-logo>
+				</template>
+				<template if="{{part}}">
+					<div id="partContain">
+						<div class="partItem">
+							<div class="whiteHor"></div>
+							<div class="partDesc part1">
+								<img src="part1desc.png" alt=""/>
+							</div>
+							<div class="selectAvatar">
+								<!--<img src="avatar.png" alt=""/>-->
+								<image-dispersion id="selectAvatar" mainimg="img/avatar.png" otherimages='[{"src":"img/avator1.png"},{"src":"img/avator2.png"},{"src":"img/avator3.png"},{"src":"img/avator4.png"}]'></image-dispersion>
+								<span class="partSubDesc">选择头像</span>
+							</div>
+							<div class="partInputContain">
+								<input type="text" class="partInput" id="username"/>
+								<span class="partSubDesc">角色名</span>
+							</div>
+							<div class="partNext">
+								<img src="next.png" alt="" on-click="{{switchPart}}"/>
+								<span class="partSubDesc">下一步</span>
+							</div>
+						</div>
+						<div class="partItem">
+							<div class="partDesc part2">
+								<img src="part2desc.png" alt=""/>
+							</div>
+							<div class="selectMaps">
+								<img src="map1.png" alt=""/>
+								<div class="changeMap" title="选择地图" on-click="{{changeMap}}"></div>
+							</div>
+							<div class="whiteHor map-openroom"></div>
+							<div class="openroom" on-click="{{openroom}}">
+								<img src="openroom.png" alt=""/>
+							</div>
+							<div class="opendesc">新建房间或</div>
+							<div class="partInputContain part2">
+								<input type="text" class="partInput" placeholder="请输入房间ip"/>
+								<span class="partSubDesc">房间ip地址</span>
+							</div>
+							<div class="whiteHor ip-joinroom"></div>
+
+							<div class="partNext part2">
+								<img src="next.png" alt="" on-click="{{switchPart}}"/>
+								<span class="partSubDesc">下一步</span>
+							</div>
+
+						</div>
+						<div class="partItem">
+							<div class="partDesc part3">
+
+							</div>
+						</div>
+					</div>
+				</template>
+			</div>
+		</template>
+		<template if="{{entergame}}">
+			<div id="enterBtn" on-click="{{jumpNext}}"></div>
+		</template>
+	</template>
+	<script>
+		Polymer('fullscreen-bg',{
+			jumpNext: function(){
+				this.fire('jumpNext');
+			},
+			switchPart: function(){
+				var curPart = this.$.outerContain.querySelector('head-logo').index,
+						verify = false;
+
+				switch (curPart){
+					case "1":
+						if(this.$.selectAvatar.select == true && !/^\s*$/.test(this.$.username.value)){
+							verify = true;
+						}else if(this.$.selectAvatar.select != true){
+							this.$.gamedialog.setTitle('没有选择头像!');
+							this.$.gamedialog.setMsg('请选择头像');
+							this.$.gamedialog.toggle();
+						}else {
+							this.$.gamedialog.setTitle('没有填写用户名!');
+							this.$.gamedialog.setMsg('请输入用户名');
+							this.$.gamedialog.toggle();
+						}
+						break;
+					case "2":
+						break;
+					case "3":
+						break;
+				}
+				if(!verify){
+					return;
+				}
+				var meta = document.createElement('core-meta');
+				meta.type = 'transition';
+				var transition = meta.byId('my-fade-out');
+
+				// Run the animation
+				var animated = this.$.partContain;
+				transition.go(animated);
+
+				this.$.outerContain.querySelector('head-logo').index = parseInt(this.$.outerContain.querySelector('head-logo').index)+1;
+			},
+			changeMap: function(){
+				this.$.gamedialog.setTitle('暂时只有一张地图!');
+				this.$.gamedialog.setMsg('');
+				this.$.gamedialog.toggle();
+			},
+			openroom: function(){
+				var net = require('./lib/network');
+				net.runServer();
+				var socket = net.connect();
+				var signal = require('./lib/signals');
+				socket.on(signal.MESSAGE.CONNECT_SUCCESS,function(data){
+					alert('房间建立成功');
+				});
+			}
+		});
+	</script>
+</polymer-element>

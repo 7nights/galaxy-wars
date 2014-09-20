@@ -1,0 +1,25 @@
+#logo img{
+    width: 135px;
+}
+#logo{
+    position: absolute;
+    top: 9px;
+    left: 15px;
+}
+#partContain{
+    display: inline-block;
+    width: 66px;
+    height: 30px;
+    background-repeat: no-repeat;
+    vertical-align: top;
+    margin-top: 43px;
+}
+#partContain.part1{
+    background-image: url('part1.png');
+}
+#partContain.part2{
+    background-image: url('part2.png');
+}
+#partContain.part3{
+    background-image: url('part3.png');
+}

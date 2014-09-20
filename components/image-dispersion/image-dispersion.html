@@ -1,0 +1,39 @@
+<link rel="import" href="../basecomponents/polymer/polymer.html"/>
+<link rel="import" href="../basecomponents/jquery/jquery.html"/>
+
+<polymer-element name="image-dispersion" attributes="mainimg,otherimages">
+	<template>
+		<link rel="stylesheet" href="image-dispersion.css"/>
+		<div id="subImgs">
+			<template repeat="{{img in images}}">
+				<img class="subimg" src="{{img.src}}" alt="" on-click="{{setMainImg}}"/>
+			</template>
+		</div>
+		<img src="{{mainimg}}" id="mainImg" alt="" on-click="{{dispersionimg}}"/>
+
+	</template>
+	<script>
+		Polymer('image-dispersion',{
+			select: false,
+			otherimagesChanged: function(){
+				this.images = JSON.parse(this.otherimages);
+			},
+			dispersionimg: function(){
+				for(var i= 0,len =this.$.subImgs.querySelectorAll('img').length;i<len;i++){
+					$(this.$.subImgs.querySelectorAll('img')[i]).removeClass('collapse'+i).addClass('dispersion'+i);
+				}
+			},
+			setMainImg: function(e,d,s){
+				this.select=true;
+				$(e.target).siblings().removeClass('active').end().addClass('active');
+				this.$.mainImg.src = e.target.src;
+				this.collapseImgs();
+			},
+			collapseImgs: function () {
+				for(var i=0,len=this.$.subImgs.querySelectorAll('img').length;i<len;i++){
+					$(this.$.subImgs.querySelectorAll('img')[i]).removeClass('dispersion'+i).addClass('collapse'+i);
+				}
+			}
+		});
+	</script>
+</polymer-element>
