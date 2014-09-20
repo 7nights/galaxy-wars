@@ -125,7 +125,7 @@ function runServer(){
         }
         doLoop(function (fn) {
           var now = new Date;
-          if (now < startTime + cooldown * (room.currentBucket + 1)) {
+          if (now < room.startTime + cooldown * (room.currentBucket + 1)) {
             return doLoop(fn);
           }
           broadcastBucket(room);
@@ -196,7 +196,7 @@ function initRoom(room, socket) {
   };
 }
 function broadcastBucket(room) {
-  var bucket = room.bucketPool[room.currentBucket];
+  var bucket = room.bucketPool[room.currentBucket] || [];
   delete room.bucketPool[room.currentBucket];
   room.currentBucket++;
   io.to(room.id).emit(signals.MESSAGE.GAME_ORDER, bucket);
