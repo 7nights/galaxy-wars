@@ -78,7 +78,6 @@ function runServer(){
   
       /* disconnect */
       socket.on('disconnect', function(data){
-        debugger;
         var index = rooms[socket.room].players.indexOf(socket);
         rooms[socket.room].players.splice(index, 1);
         /* 广播玩家掉线 */
@@ -181,10 +180,11 @@ function getPlayerInfo(socket) {
 }
 function deliverOrderToBucket(room, order, toBucket) {
   if (!room.bucketPool[toBucket]) {
-    room.bucketPool[toBucket] = [];
+    room.bucketPool[toBucket] = new Bucket;
   }
   if (toBucket < room.curBucket) toBucket = room.currentBucket;
-  room.bucketPool[toBucket].push(order);
+  
+  room.bucketPool[toBucket].concat(order);
 }
 function initRoom(room, socket) {
   rooms[room] = {
@@ -199,7 +199,7 @@ function broadcastBucket(room) {
   var bucket = room.bucketPool[room.currentBucket] || [];
   delete room.bucketPool[room.currentBucket];
   room.currentBucket++;
-  io.to(room.id).emit(signals.MESSAGE.GAME_ORDER, bucket);
+  io.to(room.id).emit(signals.MESSAGE.GAME_ORDER, bucket.orders);
   bucket = null;
 }
 function md5(data, encoding) {
