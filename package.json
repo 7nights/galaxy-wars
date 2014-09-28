@@ -1,6 +1,6 @@
 {
     "name": "GalaxyWars",
-    "main": "start.html",
+    "main": "demo.html",
     "window":{
         "width": 1280,
         "height": 640,

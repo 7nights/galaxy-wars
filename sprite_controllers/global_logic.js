@@ -53,11 +53,11 @@ function initPlanetLogic() {
 
         focusPlanet.push(target);
         /* 绘制焦点 */
-        target.drawPlayerFocus();
+        target.setFocus(true);
     });
     function removeAllFocuses() {
         focusPlanet.forEach(function (val) {
-            val.removePlayerFocus();
+            val.setFocus(false);
         });
         focusPlanet = [];
     }
@@ -66,7 +66,7 @@ function initPlanetLogic() {
     gameUtil.listen(gameUtil.EVENTS.PLANET.MOUSEOVER, function (target, event, detail) {
         if (target.owner !== gameUtil.localPlayer && focusPlanet.length > 0) {
             focusPlanet.forEach(function (val) {
-                val.drawAttckLine(target);
+                val.targetPlanet(target);
             });
 
             target.once('mouseout', function () {
@@ -76,7 +76,7 @@ function initPlanetLogic() {
     });
     function removeAllAttackLines() {
         focusPlanet.forEach(function (val) {
-            val.removeAttackLine();
+            val.untargetPlanet();
         });
     }
 }

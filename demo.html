@@ -1,0 +1,25 @@
+<html>
+<body>
+    <div id="container">
+    </div>
+    <script type="text/javascript">
+        var loader = require('./lib/resourceloader');
+        loader
+            .loadResource('planet', 'app://gw/img/game/commonplanet.png')
+            .loadResource('ship', "app://gw/img/game/redfeichuan.png");
+
+        setTimeout(function () {
+require('./lib/gamecontroller').start({
+            players: [
+                {id: "a"},
+                {id: "b"},
+                {id: "c"}
+            ],
+            randomSeed: Math.random(),
+            container: document.getElementById('container')
+        });
+        }, 500);
+        
+    </script>
+</body>
+</html>

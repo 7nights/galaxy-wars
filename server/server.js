@@ -115,7 +115,7 @@ function runServer(){
         var room = rooms[data.room];
         room.started = true;
 
-        room.startTime = new Date();
+        room.startTime = + new Date;
         room.currentBucket = 0;
         var 
             cooldown = config.bucket_time || 48;
@@ -124,7 +124,7 @@ function runServer(){
           setTimeout(fn, 1);
         }
         doLoop(function fn() {
-          var now = new Date;
+          var now = + new Date;
           if (now < room.startTime + cooldown * (room.currentBucket + 1)) {
             return doLoop(fn);
           }
