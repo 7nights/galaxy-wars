@@ -204,7 +204,7 @@ function getPlayerInfo(socket) {
  *
  * Delivers a bucket received from a client to bucket pool.
  * @param {Number} room The number of a room
- * @param {Bucket} order Bucket to deliver
+ * @param {Bucket} order Order to deliver
  * @param {Number} toBucket Index at the bucket pool
  */
 function deliverOrderToBucket(room, order, toBucket) {
@@ -213,7 +213,7 @@ function deliverOrderToBucket(room, order, toBucket) {
   }
   if (toBucket < room.curBucket) toBucket = room.currentBucket;
   
-  room.bucketPool[toBucket].concat(order);
+  room.bucketPool[toBucket].addOrder(order);
 }
 /**
  * @pravite
