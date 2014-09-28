@@ -104,7 +104,8 @@ function runServer(){
          *  检查是否是房间创建者，以及房间是否还没有开始游戏
          *  然后即可开始执行逻辑
          */
-        if (socket.user_id !== rooms[data.room].creator || rooms[data.room].started === true) {
+        if (socket.user_id !== rooms[data.room].creator ||
+         rooms[data.room].started === true) {
           socket.emit(signals.MESSAGE.ERROR, {
             message: 'Permission denied'
           });
@@ -136,12 +137,21 @@ function runServer(){
 
 	io.listen(config.port||3000);
 }
-
+/**
+ * @pravite
+ *
+ * Generates a unique id for user.
+ */
 function generateUserId() {
   var SALT = 'GALLERY_WAR_USER_ID', hash = require('crypto').createHash('md5');
   hash.update(Math.random() + SALT);
   return hash.digest('hex');
 }
+/**
+ * @pravite
+ *
+ * Generates a unique id for room.
+ */
 function generateRoomId() {
   var start = 1000;
   
@@ -150,17 +160,28 @@ function generateRoomId() {
   }
   return start;
 }
+/**
+ * @pravite
+ *
+ * Initializes user info. Call this function after creating a new user.
+ */
 function initUserInfo(socket, data) {
   socket.username = data.username || '没名字的傻瓜';
   socket.avatar = data.avatar;
+  socket.user_id_md5 = md5(socket.user_id);
 }
+/**
+ * @pravite
+ *
+ * Wraps player data to clients.
+ */
 function getPlayerInfo(socket) {
+  // TODO: generates user_id_md5 in initUserInfo
   var result;
   if (socket.length > 0 && typeof socket.splice === 'function') {
     // array
     result = [];
     socket.forEach(function (val) {
-      if (!('user_id_md5' in val)) val.user_id_md5 = md5(val.user_id);
       console.log(val.user_id_md5);
       result.push({
         id: '' + val.user_id_md5,
@@ -170,7 +191,7 @@ function getPlayerInfo(socket) {
     });
   } else {
     result = {
-      id: '' + socket.user_id,
+      id: '' + socket.user_id_md5,
       name: socket.username,
       avatar: socket.avatar
     };
@@ -178,6 +199,14 @@ function getPlayerInfo(socket) {
 
   return result;
 }
+/**
+ * @private
+ *
+ * Delivers a bucket received from a client to bucket pool.
+ * @param {Number} room The number of a room
+ * @param {Bucket} order Bucket to deliver
+ * @param {Number} toBucket Index at the bucket pool
+ */
 function deliverOrderToBucket(room, order, toBucket) {
   if (!room.bucketPool[toBucket]) {
     room.bucketPool[toBucket] = new Bucket;
@@ -186,6 +215,12 @@ function deliverOrderToBucket(room, order, toBucket) {
   
   room.bucketPool[toBucket].concat(order);
 }
+/**
+ * @pravite
+ *
+ * Initializes a room. Call this function after creating a new room.
+ *
+ */
 function initRoom(room, socket) {
   rooms[room] = {
     id: room,
@@ -195,11 +230,23 @@ function initRoom(room, socket) {
     bucketPool: []
   };
 }
+/**
+ * @pravite
+ *
+ * Broadcasts current bucket to all clients.
+ *
+ * @param room Broadcast destination
+ */
 function broadcastBucket(room) {
-  var bucket = room.bucketPool[room.currentBucket] || [];
-  delete room.bucketPool[room.currentBucket];
+  var bucket;
+  if (room.bucketPool[room.currentBucket]) {
+    bucket = room.bucketPool[room.currentBucket].orders;
+    delete room.bucketPool[room.currentBucket];
+  } else {
+    bucket = {};
+  }
   room.currentBucket++;
-  io.to(room.id).emit(signals.MESSAGE.GAME_ORDER, bucket.orders);
+  io.to(room.id).emit(signals.MESSAGE.GAME_ORDER, bucket);
   bucket = null;
 }
 function md5(data, encoding) {
